@@ -9,38 +9,43 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bolsadeideas.springboot.backend.apirest.models.dao.IClienteDao;
+import com.bolsadeideas.springboot.backend.apirest.models.dao.IFacturaDao;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Cliente;
+import com.bolsadeideas.springboot.backend.apirest.models.entity.Factura;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Region;
 
 @Service
-public class ClienteServiceImpl implements IClienteService{
-	
+public class ClienteServiceImpl implements IClienteService {
+
 	@Autowired
 	private IClienteDao clienteDao;
+
+	private IFacturaDao facturaDao;
+
 	@Override
 	@Transactional(readOnly = true)
-	public List<Cliente> findAll() {		
+	public List<Cliente> findAll() {
 		return (List<Cliente>) clienteDao.findAll();
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public Page<Cliente> findAll(Pageable pageable) {
 		return (Page<Cliente>) clienteDao.findAll(pageable);
 	}
-	
+
 	@Transactional
 	@Override
 	public Cliente save(Cliente cliente) {
 		return clienteDao.save(cliente);
 	}
-	
+
 	@Transactional
 	@Override
 	public void delete(Long id) {
 		clienteDao.deleteById(id);
 	}
-	
+
 	@Transactional(readOnly = true)
 	@Override
 	public Cliente findById(Long id) {
@@ -52,5 +57,23 @@ public class ClienteServiceImpl implements IClienteService{
 	public List<Region> findAllRegiones() {
 		return clienteDao.findAllRegiones();
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public Factura findFacturaById(Long id) {
+		return facturaDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Factura saveFactura(Factura factura) {
+		return facturaDao.save(factura);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFacturaById(Long id) {
+		facturaDao.deleteById(id);
+	}
+
 }

@@ -29,6 +29,7 @@ public class Factura implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	private String descripcion;
 	private String observacion;
 
@@ -37,12 +38,13 @@ public class Factura implements Serializable {
 
 	private Date createAt;
 	
-	@JsonIgnoreProperties({"facturas"})
+	@JsonIgnoreProperties({"facturas","hibernateLazyInitializer", "handler"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "factura_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private List<ItemFactura> items;
 
 	public Factura() {
